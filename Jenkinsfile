@@ -26,7 +26,7 @@ pipeline {
     }
 
     stage('SonarQube Analysis') {
-        withSonarQubeEnv() {
+        withSonarQubeEnv(installationName: 'sonarqube') {
             sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=hello-world'
         }
     }
