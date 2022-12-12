@@ -21,8 +21,14 @@ pipeline {
         }
       }
       steps {
-        sh 'jfrog rt upload --url http://localhost:8082/artifactory/ --access-token ${ARTIFACTORY_ACCESS_TOKEN} target/demo-0.0.1-SNAPSHOT.jar java-web-app/'
+        sh 'jfrog rt upload --url http://192.168.1.112:8082/artifactory/ --access-token ${ARTIFACTORY_ACCESS_TOKEN} target/demo-0.0.1-SNAPSHOT.jar java-web-app/'
       }
+    }
+
+    stage('SonarQube Analysis') {
+        withSonarQubeEnv() {
+            sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=hello-world'
+        }
     }
   }
 }
